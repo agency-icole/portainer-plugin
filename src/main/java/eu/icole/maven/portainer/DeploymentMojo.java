@@ -21,9 +21,15 @@ public class DeploymentMojo extends AbstractMojo {
     private String password;
 
     public void execute() throws MojoExecutionException, MojoFailureException {
-
-        getLog().info( "Connecting to Portainer at "+url);
+    try {
+        getLog().info("Connecting to Portainer at " + url);
         PortainerConnection connection = PortainerConnection.connect(url, user, password);
         getLog().info("Connected to Portainer server.");
+        getLog().debug("JWT token: "+connection.getJwt());
+    }
+    catch (Exception e){
+        getLog().error(e);
+        throw new MojoFailureException(e.getMessage());
+    }
     }
 }
