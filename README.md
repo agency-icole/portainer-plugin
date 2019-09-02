@@ -28,7 +28,7 @@ The basic goal of this plugin. It will install given docker-stack.yml file on th
 You can run the plugin using the command line:
 
 ```
-> mvn eu.icole:portainer-plugin:0.0.1-SNAPSHOT:deploy -Dportainer.user=admin -Dportainer.password=admin
+> mvn eu.icole:portainer-plugin:0.0.1:deploy -Dportainer.user=admin -Dportainer.password=admin
 ```
 
 Alternativley you can setup the plugin in your pom.xml
@@ -39,7 +39,7 @@ Alternativley you can setup the plugin in your pom.xml
       <plugin>
         <groupId>eu.icole</groupId>
         <artifactId>portainer-plugin</artifactId>
-        <version>0.0.1-SNAPSHOT</version>
+        <version>0.0.1</version>
         <configuration>
           <user>admin</user>
           <password>admin</password>
