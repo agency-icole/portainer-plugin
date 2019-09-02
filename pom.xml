@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>eu.icole</groupId>
     <artifactId>portainer-plugin</artifactId>
-    <version>0.0.2-SNAPSHOT</version>
+    <version>0.0.1-SNAPSHOT</version>
 
     <packaging>maven-plugin</packaging>
 
@@ -45,7 +43,7 @@
         <connection>scm:git:git://github.com:aradosz79/portainer-plugin.git</connection>
         <developerConnection>scm:git:git@github.com:aradosz79/portainer-plugin.git</developerConnection>
         <url>https://github.com/aradosz79/portainer-plugin</url>
-        <tag>portainer-api-0.0.1</tag>
+        <tag>0.0.1</tag>
     </scm>
 
     <dependencies>
@@ -59,8 +57,7 @@
         <dependency>
             <groupId>org.apache.maven.plugin-tools</groupId>
             <artifactId>maven-plugin-annotations</artifactId>
-            <version>3.4</version>
-            <scope>provided</scope>
+            <version>3.6.0</version>
         </dependency>
 
         <dependency>
@@ -77,6 +74,17 @@
             <groupId>eu.icole</groupId>
             <artifactId>portainer-api</artifactId>
             <version>0.0.1</version>
+            <exclusions>
+
+                <exclusion>
+                    <groupId>org.glassfish.jersey.core</groupId>
+                    <artifactId>jersey-client</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.glassfish.jersey.media</groupId>
+                    <artifactId>jersey-media-json-jackson</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
     </dependencies>
 
@@ -122,7 +130,29 @@
         </profile>
     </profiles>
     <build>
-        <plugins>
+        <plugins><plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-plugin-plugin</artifactId>
+            <version>3.5.1</version>
+            <configuration>
+                <goalPrefix>distribute</goalPrefix>
+                <skipErrorNoDescriptorsFound>true</skipErrorNoDescriptorsFound>
+            </configuration>
+            <executions>
+                <execution>
+                    <id>mojo-descriptor</id>
+                    <goals>
+                        <goal>descriptor</goal>
+                    </goals>
+                </execution>
+                <execution>
+                    <id>help-goal</id>
+                    <goals>
+                        <goal>helpmojo</goal>
+                    </goals>
+                </execution>
+            </executions>
+        </plugin>
             <plugin>
                 <groupId>org.sonatype.plugins</groupId>
                 <artifactId>nexus-staging-maven-plugin</artifactId>
@@ -211,7 +241,7 @@
                     </execution>
                     <execution>
                         <id>attach-javadoc</id>
-                        <goals/>
+                        <goals />
                     </execution>
                 </executions>
             </plugin>
