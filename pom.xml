@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>eu.icole</groupId>
@@ -43,10 +44,15 @@
         <connection>scm:git:git://github.com:aradosz79/portainer-plugin.git</connection>
         <developerConnection>scm:git:git@github.com:aradosz79/portainer-plugin.git</developerConnection>
         <url>https://github.com/aradosz79/portainer-plugin</url>
-        <tag>portainer-api-0.0.1</tag>
+        <tag>portainer-api-0.0.2</tag>
     </scm>
 
     <dependencies>
+        <dependency>
+            <groupId>com.fasterxml.jackson.dataformat</groupId>
+            <artifactId>jackson-dataformat-yaml</artifactId>
+            <version>2.9.9</version>
+        </dependency>
         <dependency>
             <groupId>org.apache.maven</groupId>
             <artifactId>maven-plugin-api</artifactId>
@@ -73,7 +79,7 @@
         <dependency>
             <groupId>eu.icole</groupId>
             <artifactId>portainer-api</artifactId>
-            <version>0.0.1</version>
+            <version>0.0.2</version>
             <exclusions>
 
                 <exclusion>
@@ -130,29 +136,50 @@
         </profile>
     </profiles>
     <build>
-        <plugins><plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-plugin-plugin</artifactId>
-            <version>3.5.1</version>
-            <configuration>
-                <goalPrefix>distribute</goalPrefix>
-                <skipErrorNoDescriptorsFound>true</skipErrorNoDescriptorsFound>
-            </configuration>
-            <executions>
-                <execution>
-                    <id>mojo-descriptor</id>
-                    <goals>
-                        <goal>descriptor</goal>
-                    </goals>
-                </execution>
-                <execution>
-                    <id>help-goal</id>
-                    <goals>
-                        <goal>helpmojo</goal>
-                    </goals>
-                </execution>
-            </executions>
-        </plugin>
+        <plugins>
+            <plugin>
+                <groupId>eu.icole</groupId>
+                <artifactId>portainer-plugin</artifactId>
+                <version>${project.version}</version>
+
+                <configuration>
+                    <user>gitlab</user>
+                    <url>http://docker.vpn.icole.eu:9000/</url>
+                    <password>${portainer.password}</password>
+                    <endpoint>local</endpoint>
+
+                    <type>swarm</type>
+
+                    <repository>http://git.vpn.icole.eu/docker/icole-stack.git</repository>
+                    <repositoryUsername>gitlab</repositoryUsername>
+                    <repositoryPassword>${portainer.password}</repositoryPassword>
+
+                </configuration>
+
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-plugin-plugin</artifactId>
+                <version>3.6.0</version>
+                <configuration>
+                    <goalPrefix>portainer</goalPrefix>
+                    <skipErrorNoDescriptorsFound>true</skipErrorNoDescriptorsFound>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>mojo-descriptor</id>
+                        <goals>
+                            <goal>descriptor</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>help-goal</id>
+                        <goals>
+                            <goal>helpmojo</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
             <plugin>
                 <groupId>org.sonatype.plugins</groupId>
                 <artifactId>nexus-staging-maven-plugin</artifactId>
@@ -241,7 +268,7 @@
                     </execution>
                     <execution>
                         <id>attach-javadoc</id>
-                        <goals />
+                        <goals/>
                     </execution>
                 </executions>
             </plugin>
