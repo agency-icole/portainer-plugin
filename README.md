@@ -1,6 +1,6 @@
 # portainer-plugin
 
-Maven Portainer plugin to support deployment process using Portainer API.
+Maven Portainer plugin to support deployment process using Portainer API. This project is not official project of Portainer.io, yet.
 
 # Goals
 
